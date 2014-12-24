@@ -121,7 +121,17 @@ namespace PassStorage
             }
 
             Console.WriteLine("PASSWORDS BEFORE SAVE: " + JsonConvert.SerializeObject(vault.passwords));
-            int id = vault.passwords.OrderByDescending(pass => pass.id).First().id + 1;
+
+            int id;
+            try
+            {
+                id = vault.passwords.OrderByDescending(pass => pass.id).First().id + 1;
+            }
+            catch (Exception)
+            {
+                id = 0;
+            }
+            
             newPass.id = id;
             vault.passwords.Add(newPass);
             Console.WriteLine("PASSWORDS AFTER SAVE: " + JsonConvert.SerializeObject(vault.passwords));
@@ -137,7 +147,7 @@ namespace PassStorage
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            vault.WritePasswords();
+            //vault.WritePasswords();
         }
     }
 

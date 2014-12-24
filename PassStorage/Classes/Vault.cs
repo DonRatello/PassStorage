@@ -24,13 +24,7 @@ namespace PassStorage.Classes
             passwords = new List<Pass>(); 
             passwords = new List<Pass>
             {
-                new Pass()
-                {
-                    id = 0,
-                    login = "Login test",
-                    password = "Pass test",
-                    title = "title test" 
-                }
+                
             };
         }
 

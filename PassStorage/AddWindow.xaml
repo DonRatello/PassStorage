@@ -16,7 +16,7 @@
 
             <TextBox Name="txtTitle" HorizontalAlignment="Left" Margin="297,148,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
             <TextBox Name="txtLogin" HorizontalAlignment="Left" Margin="297,228,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
-            <PasswordBox Name="txtPassword" HorizontalAlignment="Left" Margin="297,308,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
+            <TextBox Name="txtPassword" HorizontalAlignment="Left" Margin="297,308,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
             <Button Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="216,400,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
 
         </Grid>

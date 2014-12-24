@@ -40,7 +40,7 @@ namespace PassStorage
             {
                 title = txtTitle.Text,
                 login = txtLogin.Text,
-                password = txtPassword.Password,
+                password = txtPassword.Text,
             };
 
             this.Close();

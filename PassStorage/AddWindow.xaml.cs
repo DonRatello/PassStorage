@@ -45,5 +45,22 @@ namespace PassStorage
 
             this.Close();
         }
+
+        private void sliderChars_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            try
+            {
+                charsCount.Content = (Math.Round(sliderChars.Value, 0)).ToString();
+            }
+            catch (Exception)
+            {
+                
+            }
+        }
+
+        private void btnGeneratePassword_Click(object sender, RoutedEventArgs e)
+        {
+            txtPassword.Text = Crypt.GenerateString(Int32.Parse(charsCount.Content.ToString()));
+        }
     }
 }

@@ -18,6 +18,10 @@
             <TextBox Name="txtLogin" HorizontalAlignment="Left" Margin="297,228,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
             <TextBox Name="txtPassword" HorizontalAlignment="Left" Margin="297,308,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
             <Button Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="216,400,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
+            <Slider Name="sliderChars" HorizontalAlignment="Left" Margin="615,434,0,0" VerticalAlignment="Top" Width="320" Minimum="1" SmallChange="1" Value="10" Maximum="50" LargeChange="5" ValueChanged="sliderChars_ValueChanged"/>
+            <Label Content="Chars count:" HorizontalAlignment="Center" Margin="672,474,237,0" VerticalAlignment="Top" Foreground="White" Width="85"/>
+            <Label Name="charsCount" Content="10" HorizontalAlignment="Left" Margin="757,465,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
+            <Button Name="btnGeneratePassword" Content="Generate password" HorizontalAlignment="Left" Margin="742,316,0,0" VerticalAlignment="Top" Width="131" Click="btnGeneratePassword_Click"/>
 
         </Grid>
     </Grid>

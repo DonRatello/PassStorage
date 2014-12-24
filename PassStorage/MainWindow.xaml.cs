@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 using PassStorage.Classes;
 
 namespace PassStorage
@@ -119,11 +120,24 @@ namespace PassStorage
                 return;
             }
 
-            int id = vault.passwords.OrderBy(pass => pass.id).First().id + 1;
+            Console.WriteLine("PASSWORDS BEFORE SAVE: " + JsonConvert.SerializeObject(vault.passwords));
+            int id = vault.passwords.OrderByDescending(pass => pass.id).First().id + 1;
             newPass.id = id;
             vault.passwords.Add(newPass);
+            Console.WriteLine("PASSWORDS AFTER SAVE: " + JsonConvert.SerializeObject(vault.passwords));
             listPasswords.ItemsSource = null;
             listPasswords.ItemsSource = vault.getPasswordTitles();
+        }
+
+        private void btnWritePasswords_Click(object sender, RoutedEventArgs e)
+        {
+            vault.WritePasswords();
+            MessageBox.Show("Write completed");
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            vault.WritePasswords();
         }
     }
 

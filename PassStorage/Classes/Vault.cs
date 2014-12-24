@@ -21,7 +21,7 @@ namespace PassStorage.Classes
         public Vault()
         {   
             master = "  ";
-            passwords = new List<Pass>();
+            passwords = new List<Pass>(); 
             passwords = new List<Pass>
             {
                 new Pass()
@@ -63,29 +63,33 @@ namespace PassStorage.Classes
 
         public void WritePasswords()
         {
-            
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                // Koduje pusta liste i ja zapisuje
+                EncodePasswords();
+                sw.Write(encodedPasswords);
+                sw.Flush();
+                sw.Close();
+            }
         }
 
         public void EncodePasswords()
         {
+            List<Pass> encodedPasswordsList = new List<Pass>();
             try
             {
-                foreach (var pass in passwords)
+                encodedPasswordsList.AddRange(passwords.Select(pass => new Pass
                 {
-                    pass.login = Crypt.EncryptRijndael(pass.login, master);
-                    pass.password = Crypt.EncryptRijndael(pass.password, master);
-                    pass.title = Crypt.EncryptRijndael(pass.title, master);
-                }
+                    id = pass.id, login = Crypt.EncryptRijndael(pass.login, master), password = Crypt.EncryptRijndael(pass.password, master), title = Crypt.EncryptRijndael(pass.title, master)
+                }));
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-           
             encodedPasswords = String.Empty;
-            encodedPasswords = JsonConvert.SerializeObject(passwords);
-            //encodedPasswords = Crypt.EncryptRijndael(encodedPasswords, master);
+            encodedPasswords = JsonConvert.SerializeObject(encodedPasswordsList);
         }
 
         public void DecodePasswords()

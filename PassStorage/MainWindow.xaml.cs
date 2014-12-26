@@ -78,7 +78,7 @@ namespace PassStorage
             SetLoadingGridVisibility(true);
             vault.ReadPasswords();
 
-            timer.Interval = TimeSpan.FromSeconds(3);
+            timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
             timer.Tick += timer_Tick;
             timer.Start();
         }
@@ -91,6 +91,26 @@ namespace PassStorage
             SetLoadingGridVisibility(false);
             setScreen(Screen.PASSWORDS);
             vault.decodeCompleted = false;
+            timer.Stop();
+        }
+
+        void timer_TickBackup(object sender, EventArgs e)
+        {
+            if (!vault.saveCompleted) return;
+
+            SetLoadingGridVisibility(false);
+            vault.saveCompleted = false;
+            btnBackup.IsEnabled = true;
+            timer.Stop();
+        }
+
+        void timer_TickSave(object sender, EventArgs e)
+        {
+            if (!vault.saveCompleted) return;
+
+            SetLoadingGridVisibility(false);
+            vault.saveCompleted = false;
+            btnWritePasswords.IsEnabled = true;
             timer.Stop();
         }
 
@@ -185,16 +205,13 @@ namespace PassStorage
 
         private void btnWritePasswords_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                vault.WritePasswords();
-                MessageBox.Show("Write completed", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
+            btnWritePasswords.IsEnabled = false;
+            SetLoadingGridVisibility(true);
+            vault.WritePasswords();
+
+            timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
+            timer.Tick += timer_TickSave;
+            timer.Start();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -247,6 +264,17 @@ namespace PassStorage
         private void SetLoadingGridVisibility(bool visible)
         {
             gridLoading.Visibility = visible ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
+        }
+
+        private void btnBackup_Click(object sender, RoutedEventArgs e)
+        {
+            btnBackup.IsEnabled = false;
+            SetLoadingGridVisibility(true);
+            vault.Backup();
+
+            timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            timer.Tick += timer_TickBackup;
+            timer.Start();
         }
     }
 }

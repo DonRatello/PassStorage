@@ -19,6 +19,7 @@ namespace PassStorage.Classes
         private string encodedPasswords;
         private const string filename = "XlfTUVdEagNmrpR15GrM.dat";
         public bool decodeCompleted = false;
+        public bool saveCompleted = false;
 
         public Vault()
         {   
@@ -69,6 +70,13 @@ namespace PassStorage.Classes
 
         public void WritePasswords()
         {
+            saveCompleted = false;
+            Thread thread = new Thread(WritePasswordsThread);
+            thread.Start();
+        }
+
+        public void WritePasswordsThread()
+        {
             using (StreamWriter sw = new StreamWriter(filename))
             {
                 // Koduje pusta liste i ja zapisuje
@@ -77,6 +85,8 @@ namespace PassStorage.Classes
                 sw.Flush();
                 sw.Close();
             }
+
+            saveCompleted = true;
         }
 
         public void EncodePasswords()
@@ -146,6 +156,45 @@ namespace PassStorage.Classes
                 pass.id = id;
                 id++;
             }
+        }
+
+        public void Backup()
+        {
+            saveCompleted = false;
+            Thread thread = new Thread(BackupThread);
+            thread.Start();
+        }
+
+        public void BackupThread()
+        {
+            if (!Directory.Exists("backup"))
+            {
+                Directory.CreateDirectory("backup");
+            }
+
+            string backupfile = "backup_" + DateTime.Now.ToShortDateString() + ".dat";
+
+            if (File.Exists("backup\\" + backupfile))
+            {
+                int count =
+                    Directory.GetFiles("backup\\", backupfile.Substring(0, backupfile.LastIndexOf('.')) + "*")
+                        .ToList()
+                        .Count;
+
+                backupfile = backupfile.Substring(0, backupfile.LastIndexOf('.'));
+                backupfile += "_" + count + ".dat";
+            }
+
+            using (StreamWriter sw = new StreamWriter("backup\\" + backupfile))
+            {
+                // Koduje pusta liste i ja zapisuje
+                EncodePasswords();
+                sw.Write(encodedPasswords);
+                sw.Flush();
+                sw.Close();
+            }
+
+            saveCompleted = true;
         }
     }
 }

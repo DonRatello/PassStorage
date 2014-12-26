@@ -34,9 +34,10 @@
             <Label Name="detailLogin" Content="Login" HorizontalAlignment="Left" Margin="474,266,0,0" VerticalAlignment="Top" Foreground="White" FontSize="30"/>
             <Button Name="btnLoginCopy" Content="Copy" HorizontalAlignment="Left" Margin="474,322,0,0" VerticalAlignment="Top" Width="75" Click="btnLoginCopy_Click"/>
             <Button Name="btnPassCopy" Content="Copy" HorizontalAlignment="Left" Margin="474,458,0,0" VerticalAlignment="Top" Width="75" Click="btnPassCopy_Click"/>
-            <Button Name="btnAddNew" Content="New password" HorizontalAlignment="Left" Margin="740,528,0,0" VerticalAlignment="Top" Width="119" Click="btnAddNew_Click"/>
-            <Button Visibility="Visible" Name="btnWritePasswords" Content="Save passwords" HorizontalAlignment="Left" Margin="864,528,0,0" VerticalAlignment="Top" Width="103" Click="btnWritePasswords_Click"/>
-            <Button Visibility="Visible" Name="btnDeleteSelectedPassword" Content="Delete selected" HorizontalAlignment="Left" Margin="632,528,0,0" VerticalAlignment="Top" Width="103" Click="btnDeleteSelectedPassword_Click"/>
+            <Button Name="btnAddNew" Content="New password" HorizontalAlignment="Left" Margin="667,528,0,0" VerticalAlignment="Top" Width="119" Click="btnAddNew_Click"/>
+            <Button Visibility="Visible" Name="btnWritePasswords" Content="Save passwords" HorizontalAlignment="Left" Margin="791,528,0,0" VerticalAlignment="Top" Width="103" Click="btnWritePasswords_Click"/>
+            <Button Visibility="Visible" Name="btnDeleteSelectedPassword" Content="Delete selected" HorizontalAlignment="Left" Margin="559,528,0,0" VerticalAlignment="Top" Width="103" Click="btnDeleteSelectedPassword_Click"/>
+            <Button Name="btnBackup" Content="Backup" HorizontalAlignment="Left" Margin="899,528,0,0" VerticalAlignment="Top" Width="75" Click="btnBackup_Click"/>
         </Grid>
         <Grid Name="gridLoading" Visibility="Hidden" Width="320" Height="180">
             <Grid.Background>
@@ -45,7 +46,7 @@
             <Border BorderBrush="Black" BorderThickness="5,5,5,5">
                 <Grid>
                     <Image gif:ImageBehavior.AnimatedSource="Images/ajax-loader.gif" Width="32" Height="32"/>
-                    <Label Content="Decoding..." FontSize="24" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Please wait..." FontSize="24" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </Border>
         </Grid>

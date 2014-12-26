@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
@@ -17,6 +18,7 @@ namespace PassStorage.Classes
         public List<Pass> passwords;
         private string encodedPasswords;
         private const string filename = "XlfTUVdEagNmrpR15GrM.dat";
+        public bool decodeCompleted = false;
 
         public Vault()
         {   
@@ -29,6 +31,14 @@ namespace PassStorage.Classes
         }
 
         public void ReadPasswords()
+        {
+            decodeCompleted = false;
+            passwords = null;
+            Thread thread = new Thread(ReadPasswordsThread);
+            thread.Start();
+        }
+
+        public void ReadPasswordsThread()
         {
             if (File.Exists(filename))
             {
@@ -53,6 +63,8 @@ namespace PassStorage.Classes
                     sw.Close();
                 }
             }
+
+            decodeCompleted = true;
         }
 
         public void WritePasswords()
@@ -70,6 +82,12 @@ namespace PassStorage.Classes
         public void EncodePasswords()
         {
             List<Pass> encodedPasswordsList = new List<Pass>();
+
+            if (passwords == null)
+            {
+                passwords = new List<Pass>();
+            }
+
             try
             {
                 encodedPasswordsList.AddRange(passwords.Select(pass => new Pass

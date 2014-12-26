@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Newtonsoft.Json;
 using PassStorage.Classes;
 
@@ -28,6 +30,7 @@ namespace PassStorage
     public partial class MainWindow : Window
     {
         private Vault vault;
+        private DispatcherTimer timer;
 
         public MainWindow()
         {
@@ -38,6 +41,7 @@ namespace PassStorage
         private void Initialize()
         {
             vault = new Vault();
+            timer = new DispatcherTimer();
             SetLoadingGridVisibility(false);
             setScreen(Screen.LOGIN);
         }
@@ -57,6 +61,11 @@ namespace PassStorage
 
         private void btnMasterLogin_Click(object sender, RoutedEventArgs e)
         {
+            MasterBtnAction();
+        }
+
+        private void MasterBtnAction()
+        {
             if (txtMasterPassword.Password.Length < 8)
             {
                 MessageBox.Show("Master password cannot be shorter than 8 chars!", "Warning", MessageBoxButton.OK,
@@ -65,10 +74,24 @@ namespace PassStorage
             }
 
             vault.master = txtMasterPassword.Password;
+
+            SetLoadingGridVisibility(true);
             vault.ReadPasswords();
-            vault.DecodePasswords();
-            listPasswords.ItemsSource = vault.getPasswordTitles(); 
+
+            timer.Interval = TimeSpan.FromSeconds(3);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if (!vault.decodeCompleted) return;
+
+            listPasswords.ItemsSource = vault.getPasswordTitles();
+            SetLoadingGridVisibility(false);
             setScreen(Screen.PASSWORDS);
+            vault.decodeCompleted = false;
+            timer.Stop();
         }
 
         private void setScreen(Screen screen)
@@ -198,18 +221,7 @@ namespace PassStorage
         {
             if (e.Key == Key.Enter)
             {
-                if (txtMasterPassword.Password.Length < 8)
-                {
-                    MessageBox.Show("Master password cannot be shorter than 8 chars!", "Warning", MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                    return;
-                }
-
-                vault.master = txtMasterPassword.Password;
-                vault.ReadPasswords();
-                vault.DecodePasswords();
-                listPasswords.ItemsSource = vault.getPasswordTitles();
-                setScreen(Screen.PASSWORDS);
+                MasterBtnAction();
             }
         }
 

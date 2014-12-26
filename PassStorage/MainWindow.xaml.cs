@@ -56,6 +56,13 @@ namespace PassStorage
 
         private void btnMasterLogin_Click(object sender, RoutedEventArgs e)
         {
+            if (txtMasterPassword.Password.Length < 8)
+            {
+                MessageBox.Show("Master password cannot be shorter than 8 chars!", "Warning", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             vault.master = txtMasterPassword.Password;
             vault.ReadPasswords();
             vault.DecodePasswords();
@@ -93,10 +100,17 @@ namespace PassStorage
 
         private void listPasswords_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Pass details = vault.getPassInfoById(listPasswords.SelectedIndex);
-            detailLogin.Content = details.login;
-            detailPassword.Content = details.password;
-            detailTitle.Content = details.title;
+            try
+            {
+                Pass details = vault.getPassInfoById(listPasswords.SelectedIndex);
+                detailLogin.Content = details.login;
+                detailPassword.Content = details.password;
+                detailTitle.Content = details.title;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btnLoginCopy_Click(object sender, RoutedEventArgs e)
@@ -113,36 +127,49 @@ namespace PassStorage
 
         private void btnAddNew_Click(object sender, RoutedEventArgs e)
         {
-            Pass newPass = new AddWindow().AddNew();
-
-            if (newPass == null)
-            {
-                return;
-            }
-
-            Console.WriteLine("PASSWORDS BEFORE SAVE: " + JsonConvert.SerializeObject(vault.passwords));
-
-            int id;
             try
             {
-                id = vault.passwords.OrderByDescending(pass => pass.id).First().id + 1;
+                Pass newPass = new AddWindow().AddNew();
+
+                if (newPass == null)
+                {
+                    return;
+                }
+
+                int id;
+                try
+                {
+                    id = vault.passwords.OrderByDescending(pass => pass.id).First().id + 1;
+                }
+                catch (Exception)
+                {
+                    id = 0;
+                }
+
+                newPass.id = id;
+                vault.passwords.Add(newPass);
+                listPasswords.ItemsSource = null;
+                listPasswords.ItemsSource = vault.getPasswordTitles();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                id = 0;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
-            newPass.id = id;
-            vault.passwords.Add(newPass);
-            Console.WriteLine("PASSWORDS AFTER SAVE: " + JsonConvert.SerializeObject(vault.passwords));
-            listPasswords.ItemsSource = null;
-            listPasswords.ItemsSource = vault.getPasswordTitles();
         }
 
         private void btnWritePasswords_Click(object sender, RoutedEventArgs e)
         {
-            vault.WritePasswords();
-            MessageBox.Show("Write completed");
+            try
+            {
+                vault.WritePasswords();
+                MessageBox.Show("Write completed");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

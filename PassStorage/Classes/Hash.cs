@@ -15,19 +15,13 @@ namespace PassStorage.Classes
             SHA512Managed crypt = new SHA512Managed();
             string hash = String.Empty;
             byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password), 0, Encoding.UTF8.GetByteCount(password));
-            foreach (byte bit in crypto)
-            {
-                hash += bit.ToString("x2");
-            }
-            return hash;
+            return crypto.Aggregate(hash, (current, bit) => current + bit.ToString("x2"));
         }
 
         public static bool check(string password, string hash)
         {
             password = Hash.hash(password);
-
-            if (password == hash) return true;
-            else return false;
+            return password == hash;
         }
     }
 }

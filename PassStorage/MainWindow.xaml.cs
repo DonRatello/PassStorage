@@ -177,5 +177,4 @@ namespace PassStorage
             //vault.WritePasswords();
         }
     }
-
 }

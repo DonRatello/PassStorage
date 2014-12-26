@@ -22,13 +22,9 @@ namespace PassStorage.Classes
         public bool saveCompleted = false;
 
         public Vault()
-        {   
-            master = "  ";
+        {
+            master = String.Empty;
             passwords = new List<Pass>(); 
-            passwords = new List<Pass>
-            {
-                
-            };
         }
 
         public void ReadPasswords()

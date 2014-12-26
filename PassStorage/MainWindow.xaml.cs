@@ -86,6 +86,7 @@ namespace PassStorage
                     gridLogin.Visibility = System.Windows.Visibility.Hidden;
                     gridMaster.Visibility = System.Windows.Visibility.Visible;
                     gridPasswords.Visibility = System.Windows.Visibility.Hidden;
+                    FocusManager.SetFocusedElement(gridMaster, txtMasterPassword);
                     break;
                 }
                 case Screen.PASSWORDS:
@@ -175,6 +176,40 @@ namespace PassStorage
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //vault.WritePasswords();
+        }
+
+        private void gridLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (Hash.check(txtEnterPassword.Password, Vault.ENTER))
+                {
+                    setScreen(Screen.MASTER);
+                }
+                else
+                {
+                    lbWrongPassword.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private void gridMaster_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (txtMasterPassword.Password.Length < 8)
+                {
+                    MessageBox.Show("Master password cannot be shorter than 8 chars!", "Warning", MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
+                vault.master = txtMasterPassword.Password;
+                vault.ReadPasswords();
+                vault.DecodePasswords();
+                listPasswords.ItemsSource = vault.getPasswordTitles();
+                setScreen(Screen.PASSWORDS);
+            }
         }
     }
 }

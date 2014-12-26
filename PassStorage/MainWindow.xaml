@@ -7,14 +7,14 @@
             <ImageBrush ImageSource="/PassStorage;component/Images/background.jpg" />
         </Grid.Background>
 
-        <Grid Name="gridLogin" Visibility="Visible">
+        <Grid Name="gridLogin" Visibility="Hidden" FocusManager.FocusedElement="{Binding ElementName=txtEnterPassword}" KeyDown="gridLogin_KeyDown">
             <Label Content="Login" HorizontalAlignment="Left" Margin="160,160,0,0" VerticalAlignment="Top" FontSize="40" Foreground="White"/>
             <PasswordBox Name="txtEnterPassword" HorizontalAlignment="Left" Margin="160,249,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
             <Image HorizontalAlignment="Left" Height="256" Margin="700,28,0,0" VerticalAlignment="Top" Width="256" Source="Images/Padlocks_256.png"/>
             <Button Name="btnEnterLogin" Content="Enter" HorizontalAlignment="Left" Margin="299,323,0,0" VerticalAlignment="Top" Width="106" FontSize="20" Click="btnEnterLogin_Click" />
             <Label Name="lbWrongPassword" Visibility="Hidden" Content="Wrong password!" HorizontalAlignment="Left" Margin="512,319,0,0" VerticalAlignment="Top" Foreground="White" FontSize="25"/>
         </Grid>
-        <Grid Name="gridMaster" Visibility="Hidden">
+        <Grid Name="gridMaster" Visibility="Hidden" KeyDown="gridMaster_KeyDown" >
             <Label Content="Master" HorizontalAlignment="Left" Margin="160,160,0,0" VerticalAlignment="Top" FontSize="40" Foreground="White"/>
             <PasswordBox Name="txtMasterPassword" HorizontalAlignment="Left" Margin="160,249,0,0" VerticalAlignment="Top" Width="405" FontSize="25"/>
             <Image HorizontalAlignment="Left" Height="256" Margin="700,28,0,0" VerticalAlignment="Top" Width="256" Source="Images/Padlocks_256.png"/>

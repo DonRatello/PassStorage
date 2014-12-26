@@ -55,6 +55,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.11\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -78,6 +81,7 @@
     </Compile>
     <Compile Include="Classes\Crypt.cs" />
     <Compile Include="Classes\Hash.cs" />
+    <Compile Include="Classes\ListViewHolder.cs" />
     <Compile Include="Classes\Pass.cs" />
     <Compile Include="Classes\Vault.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -128,6 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Turn-Off-256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ajax-loader.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\orange_bg.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -118,5 +118,16 @@ namespace PassStorage.Classes
             return passwords.FirstOrDefault(pass => pass.id == id);
         }
 
+        public void DeletePassAt(int index)
+        {
+            passwords.RemoveAt(index);
+
+            int id = 0;
+            foreach (var pass in passwords)
+            {
+                pass.id = id;
+                id++;
+            }
+        }
     }
 }

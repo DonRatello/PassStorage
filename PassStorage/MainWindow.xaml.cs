@@ -38,6 +38,7 @@ namespace PassStorage
         private void Initialize()
         {
             vault = new Vault();
+            SetLoadingGridVisibility(false);
             setScreen(Screen.LOGIN);
         }
 
@@ -66,7 +67,7 @@ namespace PassStorage
             vault.master = txtMasterPassword.Password;
             vault.ReadPasswords();
             vault.DecodePasswords();
-            listPasswords.ItemsSource = vault.getPasswordTitles();
+            listPasswords.ItemsSource = vault.getPasswordTitles(); 
             setScreen(Screen.PASSWORDS);
         }
 
@@ -110,7 +111,7 @@ namespace PassStorage
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -164,7 +165,7 @@ namespace PassStorage
             try
             {
                 vault.WritePasswords();
-                MessageBox.Show("Write completed");
+                MessageBox.Show("Write completed", "Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -210,6 +211,30 @@ namespace PassStorage
                 listPasswords.ItemsSource = vault.getPasswordTitles();
                 setScreen(Screen.PASSWORDS);
             }
+        }
+
+        private void btnDeleteSelectedPassword_Click(object sender, RoutedEventArgs e)
+        {
+            int index;
+
+            try
+            {
+                index = listPasswords.SelectedIndex;
+                vault.DeletePassAt(index);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            listPasswords.ItemsSource = null;
+            listPasswords.ItemsSource = vault.getPasswordTitles();
+        }
+
+        private void SetLoadingGridVisibility(bool visible)
+        {
+            gridLoading.Visibility = visible ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
         }
     }
 }

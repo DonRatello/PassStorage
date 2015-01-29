@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace PassStorage.Classes
 {
-    class Crypt
+    public class Crypt
     {
-        internal const string Inputkey = "560A18CD-6346-4CF0-A2E8-671F9B6B9EA9";
+        internal const string Inputkey = "fe01e085-ca01-4cf8-867c-83dfad8c18db";
 
         private static RijndaelManaged RatelRijndaelManaged(string salt)
         {

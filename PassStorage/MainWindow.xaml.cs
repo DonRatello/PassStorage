@@ -40,6 +40,7 @@ namespace PassStorage
 
         private void Initialize()
         {
+            Console.WriteLine("NEW GUID: " + Guid.NewGuid());
             vault = new Vault();
             timer = new DispatcherTimer();
             SetLoadingGridVisibility(false);

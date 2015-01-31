@@ -139,6 +139,16 @@
   <ItemGroup>
     <Resource Include="Images\orange_bg.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\copy-50.png" />
+    <Resource Include="Images\Icons\database_backup-50.png" />
+    <Resource Include="Images\Icons\edit_file-50.png" />
+    <Resource Include="Images\Icons\save_as-50 %281%29.png" />
+    <Resource Include="Images\Icons\trash-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\create_new-50.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -277,5 +277,10 @@ namespace PassStorage
             timer.Tick += timer_TickBackup;
             timer.Start();
         }
+
+        private void btnEditSelectedPassword_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

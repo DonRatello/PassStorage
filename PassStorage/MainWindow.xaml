@@ -34,10 +34,36 @@
             <Label Name="detailLogin" Content="Login" HorizontalAlignment="Left" Margin="474,266,0,0" VerticalAlignment="Top" Foreground="White" FontSize="30"/>
             <Button Name="btnLoginCopy" Content="Copy" HorizontalAlignment="Left" Margin="474,322,0,0" VerticalAlignment="Top" Width="75" Click="btnLoginCopy_Click"/>
             <Button Name="btnPassCopy" Content="Copy" HorizontalAlignment="Left" Margin="474,458,0,0" VerticalAlignment="Top" Width="75" Click="btnPassCopy_Click"/>
-            <Button Name="btnAddNew" Content="New password" HorizontalAlignment="Left" Margin="667,528,0,0" VerticalAlignment="Top" Width="119" Click="btnAddNew_Click"/>
-            <Button Visibility="Visible" Name="btnWritePasswords" Content="Save passwords" HorizontalAlignment="Left" Margin="791,528,0,0" VerticalAlignment="Top" Width="103" Click="btnWritePasswords_Click"/>
-            <Button Visibility="Visible" Name="btnDeleteSelectedPassword" Content="Delete selected" HorizontalAlignment="Left" Margin="559,528,0,0" VerticalAlignment="Top" Width="103" Click="btnDeleteSelectedPassword_Click"/>
-            <Button Name="btnBackup" Content="Backup" HorizontalAlignment="Left" Margin="899,528,0,0" VerticalAlignment="Top" Width="75" Click="btnBackup_Click"/>
+            
+            <Button Name="btnAddNew" HorizontalAlignment="Left" Margin="841,505,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnAddNew_Click">
+                <StackPanel>
+                    <Image Source="Images/Icons/create_new-50.png" Stretch="Fill" />
+                </StackPanel>
+            </Button>
+
+            <Button Visibility="Visible" Name="btnWritePasswords" HorizontalAlignment="Left" Margin="886,505,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnWritePasswords_Click">
+                <StackPanel>
+                    <Image Source="Images/Icons/save_as-50 (1).png" Stretch="Fill" />
+                </StackPanel>
+            </Button>
+            <Button Name="btnBackup" HorizontalAlignment="Left" Margin="931,505,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnBackup_Click">
+                <StackPanel>
+                    <Image Source="Images/Icons/database_backup-50.png" Stretch="Fill" />
+                </StackPanel>
+            </Button>
+
+            <Grid Name="gridPasswordOptions">
+                <Button Visibility="Visible" Name="btnDeleteSelectedPassword" HorizontalAlignment="Left" Margin="797,93,0,0" VerticalAlignment="Top" Width="35" Click="btnDeleteSelectedPassword_Click" Height="35">
+                    <StackPanel>
+                        <Image Source="Images/Icons/trash-50.png" Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+                <Button Visibility="Visible" Name="btnEditSelectedPassword" HorizontalAlignment="Left" Margin="757,93,0,0" VerticalAlignment="Top" Width="35" Height="35" Click="btnEditSelectedPassword_Click">
+                    <StackPanel>
+                        <Image Source="Images/Icons/edit_file-50.png" Stretch="Fill" />
+                    </StackPanel>
+                </Button>
+            </Grid>
         </Grid>
         <Grid Name="gridLoading" Visibility="Hidden" Width="320" Height="180">
             <Grid.Background>

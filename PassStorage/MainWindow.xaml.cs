@@ -251,7 +251,6 @@ namespace PassStorage
             {
                 index = listPasswords.SelectedIndex;
                 vault.DeletePassAt(index);
-
             }
             catch (Exception ex)
             {
@@ -280,7 +279,20 @@ namespace PassStorage
 
         private void btnEditSelectedPassword_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                Pass pass = vault.passwords.ElementAt(listPasswords.SelectedIndex);
+                AddWindow add = new AddWindow();
+                pass = add.Edit(pass);
 
+                vault.Sort();
+                listPasswords.ItemsSource = null;
+                listPasswords.ItemsSource = vault.getPasswordTitles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

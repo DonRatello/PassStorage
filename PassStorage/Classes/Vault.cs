@@ -116,15 +116,14 @@ namespace PassStorage.Classes
 
             try
             {
-                int id = 0;
                 foreach (var pass in passwords)
                 {
-                    pass.id = id;
                     pass.login = Crypt.DecryptRijndael(pass.login, master);
                     pass.title = Crypt.DecryptRijndael(pass.title, master);
                     pass.password = Crypt.DecryptRijndael(pass.password, master);
-                    id++;
                 }
+
+                Sort();
             }
             catch (Exception e)
             {
@@ -191,6 +190,19 @@ namespace PassStorage.Classes
             }
 
             saveCompleted = true;
+        }
+
+        public void Sort()
+        {
+            // Sorting
+            passwords = passwords.OrderBy(p => p.title).ToList();
+
+            int id = 0;
+            foreach (var pass in passwords)
+            {
+                pass.id = id;
+                id++;
+            }
         }
     }
 }

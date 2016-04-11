@@ -108,6 +108,7 @@
     <Compile Include="Classes\Hash.cs" />
     <Compile Include="Classes\ListViewHolder.cs" />
     <Compile Include="Classes\Pass.cs" />
+    <Compile Include="Classes\RootList.cs" />
     <Compile Include="Classes\Vault.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

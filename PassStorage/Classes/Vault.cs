@@ -16,7 +16,7 @@ namespace PassStorage.Classes
     {
         public string enter;
         public string master;
-        public List<Pass> passwords;
+        public RootList rootList;
         private string encodedPasswords;
         private const string filename = "XlfTUVdEagNmrpR15GrM.dat";
         public bool decodeCompleted = false;
@@ -25,14 +25,14 @@ namespace PassStorage.Classes
         public Vault()
         {
             master = String.Empty;
-            passwords = new List<Pass>();
+            rootList = new RootList { data = new List<Pass>() };
             enter = Common.ReadSetting("ENTER_HASH");
         }
 
         public void ReadPasswords()
         {
             decodeCompleted = false;
-            passwords = null;
+            rootList.data = null;
             Thread thread = new Thread(ReadPasswordsThread);
             thread.Start();
         }
@@ -89,16 +89,20 @@ namespace PassStorage.Classes
 
         public void EncodePasswords()
         {
-            List<Pass> encodedPasswordsList = new List<Pass>();
+            RootList encodedRootList = new RootList() { data = new List<Pass>() };
+            encodedRootList.date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
+            encodedRootList.version = Guid.NewGuid().ToString();
+            encodedRootList.user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            encodedRootList.computerName = Environment.MachineName;
 
-            if (passwords == null)
+            if (rootList.data == null)
             {
-                passwords = new List<Pass>();
+                rootList.data = new List<Pass>();
             }
 
             try
             {
-                encodedPasswordsList.AddRange(passwords.Select(pass => new Pass
+                encodedRootList.data.AddRange(rootList.data.Select(pass => new Pass
                 {
                     id = pass.id, login = Crypt.EncryptRijndael(pass.login, master), password = Crypt.EncryptRijndael(pass.password, master), title = Crypt.EncryptRijndael(pass.title, master)
                 }));
@@ -109,16 +113,16 @@ namespace PassStorage.Classes
             }
 
             encodedPasswords = String.Empty;
-            encodedPasswords = JsonConvert.SerializeObject(encodedPasswordsList);
+            encodedPasswords = JsonConvert.SerializeObject(encodedRootList, Formatting.Indented);
         }
 
         public void DecodePasswords()
         {
-            passwords = JsonConvert.DeserializeObject<List<Pass>>(encodedPasswords);
+            rootList = JsonConvert.DeserializeObject<RootList>(encodedPasswords);
 
             try
             {
-                foreach (var pass in passwords)
+                foreach (var pass in rootList.data)
                 {
                     pass.login = Crypt.DecryptRijndael(pass.login, master);
                     pass.title = Crypt.DecryptRijndael(pass.title, master);
@@ -135,20 +139,20 @@ namespace PassStorage.Classes
 
         public List<string> getPasswordTitles()
         {
-            return passwords.Select(pass => pass.title).ToList();
+            return rootList.data.Select(pass => pass.title).ToList();
         }
 
         public Pass getPassInfoById(int id)
         {
-            return passwords.FirstOrDefault(pass => pass.id == id);
+            return rootList.data.FirstOrDefault(pass => pass.id == id);
         }
 
         public void DeletePassAt(int index)
         {
-            passwords.RemoveAt(index);
+            rootList.data.RemoveAt(index);
 
             int id = 0;
-            foreach (var pass in passwords)
+            foreach (var pass in rootList.data)
             {
                 pass.id = id;
                 id++;
@@ -197,10 +201,10 @@ namespace PassStorage.Classes
         public void Sort()
         {
             // Sorting
-            passwords = passwords.OrderBy(p => p.title).ToList();
+            rootList.data = rootList.data.OrderBy(p => p.title).ToList();
 
             int id = 0;
-            foreach (var pass in passwords)
+            foreach (var pass in rootList.data)
             {
                 pass.id = id;
                 id++;

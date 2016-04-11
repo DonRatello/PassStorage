@@ -184,7 +184,7 @@ namespace PassStorage
                 int id;
                 try
                 {
-                    id = vault.passwords.OrderByDescending(pass => pass.id).First().id + 1;
+                    id = vault.rootList.data.OrderByDescending(pass => pass.id).First().id + 1;
                 }
                 catch (Exception)
                 {
@@ -192,7 +192,7 @@ namespace PassStorage
                 }
 
                 newPass.id = id;
-                vault.passwords.Add(newPass);
+                vault.rootList.data.Add(newPass);
                 listPasswords.ItemsSource = null;
                 listPasswords.ItemsSource = vault.getPasswordTitles();
             }
@@ -280,7 +280,7 @@ namespace PassStorage
         {
             try
             {
-                Pass pass = vault.passwords.ElementAt(listPasswords.SelectedIndex);
+                Pass pass = vault.rootList.data.ElementAt(listPasswords.SelectedIndex);
                 AddWindow add = new AddWindow();
                 pass = add.Edit(pass);
 

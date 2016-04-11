@@ -12,5 +12,6 @@ namespace PassStorage.Classes
         public string title;
         public string login;
         public string password;
+        public DateTime creationDate;
     }
 }

@@ -88,6 +88,9 @@ namespace PassStorage
             if (!vault.decodeCompleted) return;
 
             listPasswords.ItemsSource = vault.getPasswordTitles();
+
+            if (vault.getPasswordTitles().Any()) listPasswords.SelectedIndex = 0;
+
             SetLoadingGridVisibility(false);
             setScreen(Screen.PASSWORDS);
             vault.decodeCompleted = false;
@@ -193,6 +196,7 @@ namespace PassStorage
 
                 newPass.id = id;
                 vault.rootList.data.Add(newPass);
+                vault.Sort();
                 listPasswords.ItemsSource = null;
                 listPasswords.ItemsSource = vault.getPasswordTitles();
             }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PassStorage.Classes
 {
-    internal class Hash
+    public class Hash
     {
         public static string hash(string password)
         {

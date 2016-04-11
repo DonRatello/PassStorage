@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace PassStorage.Classes
 {
-    class Vault
+    public class Vault
     {
-        public const string ENTER = "8f4880ebd926ba499b5d3df185995de61b51543e7f19fd9ce55ae63946ac7b4c837a17b3d075aa2f156ecb814b63fa2895c6fb781088638c4f67a7e9a76ccfe8";
+        public string enter;
         public string master;
         public List<Pass> passwords;
         private string encodedPasswords;
@@ -24,7 +25,8 @@ namespace PassStorage.Classes
         public Vault()
         {
             master = String.Empty;
-            passwords = new List<Pass>(); 
+            passwords = new List<Pass>();
+            enter = Common.ReadSetting("ENTER_HASH");
         }
 
         public void ReadPasswords()

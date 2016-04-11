@@ -49,8 +49,7 @@ namespace PassStorage
 
         private void btnEnterLogin_Click(object sender, RoutedEventArgs e)
         {
-            //Console.WriteLine("PASS HASH: " + Hash.hash("janosik"));
-            if (Hash.check(txtEnterPassword.Password, Vault.ENTER))
+            if (Hash.check(txtEnterPassword.Password, vault.enter))
             {
                 setScreen(Screen.MASTER);
             }
@@ -224,7 +223,7 @@ namespace PassStorage
         {
             if (e.Key == Key.Enter)
             {
-                if (Hash.check(txtEnterPassword.Password, Vault.ENTER))
+                if (Hash.check(txtEnterPassword.Password, vault.enter))
                 {
                     setScreen(Screen.MASTER);
                 }

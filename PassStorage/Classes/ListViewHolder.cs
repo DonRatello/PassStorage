@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PassStorage.Classes
 {
-    class ListViewHolder
+    public class ListViewHolder
     {
         public string Name;
         public string Value;

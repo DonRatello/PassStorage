@@ -175,6 +175,21 @@
   <ItemGroup>
     <Resource Include="Images\Icons\create_new-50.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\About-50.png" />
+    <Resource Include="Images\Icons\Data Protection-50.png" />
+    <Resource Include="Images\Icons\Delete-50.png" />
+    <Resource Include="Images\Icons\Drill-50.png" />
+    <Resource Include="Images\Icons\Edit Row-50.png" />
+    <Resource Include="Images\Icons\Exit-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Keys-256.png" />
+    <Resource Include="Images\Lock-256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Versions-50.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

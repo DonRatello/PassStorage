@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Reflection;
 using Newtonsoft.Json;
 using PassStorage.Classes;
 
@@ -42,6 +43,7 @@ namespace PassStorage
         {
             vault = new Vault();
             timer = new DispatcherTimer();
+            menuVersion.Header = $"Version {Common.GetVersion()} Build {Common.GetLinkerTime(Assembly.GetExecutingAssembly()).ToString("yyyyMMddHHmmss")}";
             SetLoadingGridVisibility(false);
             setScreen(Screen.LOGIN);
         }

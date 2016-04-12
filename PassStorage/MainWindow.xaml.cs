@@ -155,10 +155,11 @@ namespace PassStorage
                 detailLogin.Content = details.login;
                 detailPassword.Content = details.password;
                 detailTitle.Content = details.title;
+                detailDate.Content = details.creationDate.ToString();
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

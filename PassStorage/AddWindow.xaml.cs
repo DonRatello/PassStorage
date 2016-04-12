@@ -51,21 +51,15 @@ namespace PassStorage
             if (newPassword == null)
             {
                 // If null means it's add operation
-                newPassword = new Pass()
-                {
-                    title = txtTitle.Text,
-                    login = txtLogin.Text,
-                    password = txtPassword.Text,
-                };
-            }
-            else
-            {
-                newPassword.title = txtTitle.Text;
-                newPassword.password = txtPassword.Text;
-                newPassword.login = txtLogin.Text;
+                newPassword = new Pass();
             }
 
-            this.Close();
+            newPassword.title = txtTitle.Text;
+            newPassword.password = txtPassword.Text;
+            newPassword.login = txtLogin.Text;
+            newPassword.creationDate = DateTime.Now;
+
+            Close();
         }
 
         private void sliderChars_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -74,9 +68,9 @@ namespace PassStorage
             {
                 charsCount.Content = (Math.Round(sliderChars.Value, 0)).ToString();
             }
-            catch
+            catch (Exception ex)
             {
-
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

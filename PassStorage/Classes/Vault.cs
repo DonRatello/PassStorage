@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows;
 using Newtonsoft.Json;
 using System.Configuration;
+using System.Reflection;
 
 namespace PassStorage.Classes
 {
@@ -91,7 +92,7 @@ namespace PassStorage.Classes
         {
             RootList encodedRootList = new RootList() { data = new List<Pass>() };
             encodedRootList.date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
-            encodedRootList.version = Guid.NewGuid().ToString();
+            encodedRootList.version = Common.GetVersion();
             encodedRootList.user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             encodedRootList.computerName = Environment.MachineName;
 
@@ -104,7 +105,11 @@ namespace PassStorage.Classes
             {
                 encodedRootList.data.AddRange(rootList.data.Select(pass => new Pass
                 {
-                    id = pass.id, login = Crypt.EncryptRijndael(pass.login, master), password = Crypt.EncryptRijndael(pass.password, master), title = Crypt.EncryptRijndael(pass.title, master)
+                    id = pass.id,
+                    login = Crypt.EncryptRijndael(pass.login, master),
+                    password = Crypt.EncryptRijndael(pass.password, master),
+                    title = Crypt.EncryptRijndael(pass.title, master),
+                    creationDate = pass.creationDate
                 }));
             }
             catch (Exception e)
@@ -209,6 +214,30 @@ namespace PassStorage.Classes
                 pass.id = id;
                 id++;
             }
+        }
+
+        public void BackupDecoded()
+        {
+            string filename = null;
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "PassStorage_DecodedBackup"; // Default file name
+            dlg.DefaultExt = ".json"; // Default file extension
+            dlg.Filter = "JSON file (.json)|*.json"; // Filter files by extension
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true) filename = dlg.FileName;
+            else return;
+
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                string json = JsonConvert.SerializeObject(rootList, Formatting.Indented);
+                sw.Write(json);
+            }
+
+            MessageBox.Show("Decoded passwords saved!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

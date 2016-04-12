@@ -155,7 +155,10 @@ namespace PassStorage
                 detailLogin.Content = details.login;
                 detailPassword.Content = details.password;
                 detailTitle.Content = details.title;
-                detailDate.Content = details.creationDate.ToString();
+                detailDate.Content = $"Set {details.GetDays()} days ago";
+
+                detailDate_WarningImage.Visibility = string.IsNullOrEmpty(details.GetWarning()) ? Visibility.Hidden : Visibility.Visible;
+                detailDate_Warning.Content = details.GetWarning();
             }
             catch (Exception ex)
             {
@@ -262,7 +265,12 @@ namespace PassStorage
 
         private void menuBackupDecoded_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (MessageBox.Show("Are you sure you want to save decoded password list?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            vault.BackupDecoded();
         }
 
         private void menuExit_Click(object sender, RoutedEventArgs e)
@@ -329,6 +337,8 @@ namespace PassStorage
             vault.Sort();
             listPasswords.ItemsSource = null;
             listPasswords.ItemsSource = vault.getPasswordTitles();
+
+            if (vault.getPasswordTitles().Any()) listPasswords.SelectedIndex = 0;
         }
 
         private void menuHashGeneratorTool_Click(object sender, RoutedEventArgs e)

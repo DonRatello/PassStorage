@@ -40,7 +40,6 @@ namespace PassStorage
 
         private void Initialize()
         {
-            Console.WriteLine("NEW GUID: " + Guid.NewGuid());
             vault = new Vault();
             timer = new DispatcherTimer();
             SetLoadingGridVisibility(false);
@@ -103,7 +102,7 @@ namespace PassStorage
 
             SetLoadingGridVisibility(false);
             vault.saveCompleted = false;
-            btnBackup.IsEnabled = true;
+            menuBackup.IsEnabled = true;
             timer.Stop();
         }
 
@@ -113,7 +112,7 @@ namespace PassStorage
 
             SetLoadingGridVisibility(false);
             vault.saveCompleted = false;
-            btnWritePasswords.IsEnabled = true;
+            menuSave.IsEnabled = true;
             timer.Stop();
         }
 
@@ -173,51 +172,6 @@ namespace PassStorage
             MessageBox.Show("Password copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void btnAddNew_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Pass newPass = new AddWindow().AddNew();
-
-                if (newPass == null)
-                {
-                    return;
-                }
-
-                int id;
-                try
-                {
-                    id = vault.rootList.data.OrderByDescending(pass => pass.id).First().id + 1;
-                }
-                catch (Exception)
-                {
-                    id = 0;
-                }
-
-                newPass.id = id;
-                vault.rootList.data.Add(newPass);
-                vault.Sort();
-                listPasswords.ItemsSource = null;
-                listPasswords.ItemsSource = vault.getPasswordTitles();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
-        }
-
-        private void btnWritePasswords_Click(object sender, RoutedEventArgs e)
-        {
-            btnWritePasswords.IsEnabled = false;
-            SetLoadingGridVisibility(true);
-            vault.WritePasswords();
-
-            timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
-            timer.Tick += timer_TickSave;
-            timer.Start();
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //vault.WritePasswords();
@@ -246,32 +200,55 @@ namespace PassStorage
             }
         }
 
-        private void btnDeleteSelectedPassword_Click(object sender, RoutedEventArgs e)
-        {
-            int index;
-
-            try
-            {
-                index = listPasswords.SelectedIndex;
-                vault.DeletePassAt(index);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            listPasswords.ItemsSource = null;
-            listPasswords.ItemsSource = vault.getPasswordTitles();
-        }
-
         private void SetLoadingGridVisibility(bool visible)
         {
             gridLoading.Visibility = visible ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
         }
 
-        private void btnBackup_Click(object sender, RoutedEventArgs e)
+        private void menuAddNew_Click(object sender, RoutedEventArgs e)
         {
-            btnBackup.IsEnabled = false;
+            try
+            {
+                Pass newPass = new AddWindow().AddNew();
+
+                if (newPass == null) return;
+
+                int id;
+                try
+                {
+                    id = vault.rootList.data.OrderByDescending(pass => pass.id).First().id + 1;
+                }
+                catch (Exception)
+                {
+                    id = 0;
+                }
+
+                newPass.id = id;
+                vault.rootList.data.Add(newPass);
+                vault.Sort();
+                listPasswords.ItemsSource = null;
+                listPasswords.ItemsSource = vault.getPasswordTitles();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void menuSave_Click(object sender, RoutedEventArgs e)
+        {
+            menuSave.IsEnabled = false;
+            SetLoadingGridVisibility(true);
+            vault.WritePasswords();
+
+            timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            timer.Tick += timer_TickSave;
+            timer.Start();
+        }
+
+        private void menuBackup_Click(object sender, RoutedEventArgs e)
+        {
+            menuBackup.IsEnabled = false;
             SetLoadingGridVisibility(true);
             vault.Backup();
 
@@ -280,10 +257,38 @@ namespace PassStorage
             timer.Start();
         }
 
-        private void btnEditSelectedPassword_Click(object sender, RoutedEventArgs e)
+        private void menuBackupDecoded_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void menuExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void menuCopyLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(detailLogin.Content.ToString());
+            MessageBox.Show("Login copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void menuCopyPassword_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(detailPassword.Content.ToString());
+            MessageBox.Show("Password copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void menuEdit_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                if (listPasswords.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please choose entry from the list", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 Pass pass = vault.rootList.data.ElementAt(listPasswords.SelectedIndex);
                 AddWindow add = new AddWindow();
                 pass = add.Edit(pass);
@@ -296,6 +301,41 @@ namespace PassStorage
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void menuDelete_Click(object sender, RoutedEventArgs e)
+        { 
+            try
+            {
+                int index = listPasswords.SelectedIndex;
+
+                if (MessageBox.Show($"Are you sure to delete {vault.getPassInfoById(index).title} ?", "Please confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    vault.DeletePassAt(index);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            vault.Sort();
+            listPasswords.ItemsSource = null;
+            listPasswords.ItemsSource = vault.getPasswordTitles();
+        }
+
+        private void menuHashGeneratorTool_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void menuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -22,10 +22,79 @@
             <Button Name="btnMasterLogin" Content="Confirm" HorizontalAlignment="Left" Margin="299,323,0,0" VerticalAlignment="Top" Width="106" FontSize="20" Click="btnMasterLogin_Click"/>
         </Grid>
         <Grid Name="gridPasswords" Visibility="Visible">
-            <Label Content="Pass Vault" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="40" Foreground="White"/>
+
+            <Menu IsMainMenu="True" Width="1000" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" >
+                <MenuItem Header="File">
+                    <MenuItem Name="menuAddNew" Header="Add new" Click="menuAddNew_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/create_new-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Name="menuSave" Header="Save" Click="menuSave_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/save_as-50 (1).png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Name="menuBackup" Header="Backup" Click="menuBackup_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/database_backup-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="menuBackupDecoded" Header="Backup decoded" Click="menuBackupDecoded_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/database_backup-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Name="menuExit" Header="Exit" Click="menuExit_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/database_backup-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Name="menuCopyLogin" Header="Copy login" Click="menuCopyLogin_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/copy-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="menuCopyPassword" Header="Copy password" Click="menuCopyPassword_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/copy-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Name="menuEdit" Header="Edit" Click="menuEdit_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/edit_file-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Name="menuDelete" Header="Delete" Click="menuDelete_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/trash-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Extra">
+                    <MenuItem Name="menuHashGeneratorTool" Header="Hash generator tool" Click="menuHashGeneratorTool_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/trash-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Name="menuAbout" Header="About PassStorage..." Click="menuAbout_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/trash-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
             <Image HorizontalAlignment="Left" Height="150" Margin="834,10,0,0" VerticalAlignment="Top" Width="150" Source="Images/Padlocks_256.png"/>
-            <ListView Name="listPasswords" SelectionMode="Single" FontSize="16" HorizontalAlignment="Left" Height="489" Margin="10,73,0,0" VerticalAlignment="Top" Width="315" Foreground="#FF9900" Background="Transparent" SelectionChanged="listPasswords_SelectionChanged">
-                
+            <ListView Name="listPasswords" SelectionMode="Single" FontSize="16" HorizontalAlignment="Left" Height="525" Margin="10,37,0,0" VerticalAlignment="Top" Width="315" Foreground="#FF9900" Background="Transparent" SelectionChanged="listPasswords_SelectionChanged">
+
             </ListView>
             <Label Name="detailTitle" Content="Title" HorizontalAlignment="Left" Margin="430,156,0,0" VerticalAlignment="Top" Foreground="White" FontSize="40"/>
             <Image HorizontalAlignment="Left" Height="100" Margin="369,244,0,0" VerticalAlignment="Top" Width="100" Source="Images/login_icon.png"/>
@@ -42,36 +111,6 @@
                     <Image Source="Images/Icons/copy-50.png" Stretch="Fill" />
                 </StackPanel>
             </Button>
-
-            <Button Name="btnAddNew" HorizontalAlignment="Left" Margin="841,505,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnAddNew_Click">
-                <StackPanel>
-                    <Image Source="Images/Icons/create_new-50.png" Stretch="Fill" />
-                </StackPanel>
-            </Button>
-
-            <Button Visibility="Visible" Name="btnWritePasswords" HorizontalAlignment="Left" Margin="886,505,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnWritePasswords_Click">
-                <StackPanel>
-                    <Image Source="Images/Icons/save_as-50 (1).png" Stretch="Fill" />
-                </StackPanel>
-            </Button>
-            <Button Name="btnBackup" HorizontalAlignment="Left" Margin="931,505,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnBackup_Click">
-                <StackPanel>
-                    <Image Source="Images/Icons/database_backup-50.png" Stretch="Fill" />
-                </StackPanel>
-            </Button>
-
-            <Grid Name="gridPasswordOptions">
-                <Button Visibility="Visible" Name="btnDeleteSelectedPassword" HorizontalAlignment="Left" Margin="797,93,0,0" VerticalAlignment="Top" Width="35" Click="btnDeleteSelectedPassword_Click" Height="35">
-                    <StackPanel>
-                        <Image Source="Images/Icons/trash-50.png" Stretch="Fill" />
-                    </StackPanel>
-                </Button>
-                <Button Visibility="Visible" Name="btnEditSelectedPassword" HorizontalAlignment="Left" Margin="757,93,0,0" VerticalAlignment="Top" Width="35" Height="35" Click="btnEditSelectedPassword_Click">
-                    <StackPanel>
-                        <Image Source="Images/Icons/edit_file-50.png" Stretch="Fill" />
-                    </StackPanel>
-                </Button>
-            </Grid>
         </Grid>
         <Grid Name="gridLoading" Visibility="Hidden" Width="320" Height="180">
             <Grid.Background>

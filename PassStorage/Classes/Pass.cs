@@ -20,14 +20,21 @@ namespace PassStorage.Classes
             return Math.Round(diff.TotalDays).ToString();
         }
 
-        public string GetWarning()
+        public bool IsOvertime()
         {
             var diff = DateTime.Now.Subtract(creationDate);
             int dayLimit = Int32.Parse(Common.ReadSetting("DAYS_WARNING"));
 
-            if (Math.Round(diff.TotalDays) < dayLimit) return null;
+            return (Math.Round(diff.TotalDays) > dayLimit);
+        }
 
-            return $"Password was set more than {dayLimit} days ago!";
+        public string GetWarning()
+        {
+            int dayLimit = Int32.Parse(Common.ReadSetting("DAYS_WARNING"));
+
+            if (IsOvertime()) return $"Password was set more than {dayLimit} days ago!";
+
+            return null;
         }
     }
 }

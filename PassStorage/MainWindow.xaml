@@ -37,6 +37,12 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
+                    <MenuItem Name="menuUploadDecoded" Header="Upload decoded" Click="menuUploadDecoded_Click">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Icons/Upload-50.png" Width="20" Height="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
                     <MenuItem Name="menuBackup" Header="Backup" Click="menuBackup_Click">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/database_backup-50.png" Width="20" Height="20" />

@@ -19,7 +19,7 @@ namespace PassStorage.Classes
         public string master;
         public RootList rootList;
         private string encodedPasswords;
-        private const string filename = "XlfTUVdEagNmrpR15GrM.dat";
+        private string filename;
         public bool decodeCompleted = false;
         public bool saveCompleted = false;
 
@@ -28,6 +28,7 @@ namespace PassStorage.Classes
             master = String.Empty;
             rootList = new RootList { data = new List<Pass>() };
             enter = Common.ReadSetting("ENTER_HASH");
+            filename = Common.ReadSetting("FILENAME");
         }
 
         public void ReadPasswords()
@@ -144,7 +145,7 @@ namespace PassStorage.Classes
 
         public List<string> getPasswordTitles()
         {
-            return rootList.data.Select(pass => pass.title).ToList();
+            return rootList.data.Select(pass => pass.IsOvertime() ? $"WARNING - {pass.title}" : pass.title).ToList();
         }
 
         public Pass getPassInfoById(int id)
@@ -225,7 +226,7 @@ namespace PassStorage.Classes
             dlg.Filter = "JSON file (.json)|*.json"; // Filter files by extension
 
             // Show save file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
+            bool? result = dlg.ShowDialog();
 
             // Process save file dialog box results
             if (result == true) filename = dlg.FileName;
@@ -238,6 +239,24 @@ namespace PassStorage.Classes
             }
 
             MessageBox.Show("Decoded passwords saved!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void LoadDecoded()
+        {
+            string filename = null;
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "PassStorage_DecodedList"; // Default file name
+            dlg.DefaultExt = ".json"; // Default file extension
+            dlg.Filter = "JSON file (.json)|*.json"; // Filter files by extension
+
+            // Show open file dialog box
+            bool? result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true) filename = dlg.FileName;
+            else return;
+
+
         }
     }
 }

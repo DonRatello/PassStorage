@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.Reflection;
 using Newtonsoft.Json;
 using PassStorage.Classes;
+using PassStorage.Logging;
 
 namespace PassStorage
 {
@@ -41,6 +42,7 @@ namespace PassStorage
 
         private void Initialize()
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             vault = new Vault();
             timer = new DispatcherTimer();
             menuVersion.Header = $"Version {Common.GetVersion()} Build {Common.GetLinkerTime(Assembly.GetExecutingAssembly()).ToString("yyyyMMddHHmmss")}";
@@ -50,6 +52,7 @@ namespace PassStorage
 
         private void btnEnterLogin_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (Hash.check(txtEnterPassword.Password, vault.enter))
             {
                 setScreen(Screen.MASTER);
@@ -62,11 +65,13 @@ namespace PassStorage
 
         private void btnMasterLogin_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             MasterBtnAction();
         }
 
         private void MasterBtnAction()
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (txtMasterPassword.Password.Length < 8)
             {
                 MessageBox.Show("Master password cannot be shorter than 8 chars!", "Warning", MessageBoxButton.OK,
@@ -84,13 +89,21 @@ namespace PassStorage
             timer.Start();
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        private void FetchList()
         {
-            if (!vault.decodeCompleted) return;
-
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            listPasswords.ItemsSource = null;
             listPasswords.ItemsSource = vault.getPasswordTitles();
 
             if (vault.getPasswordTitles().Any()) listPasswords.SelectedIndex = 0;
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            if (!vault.decodeCompleted) return;
+
+            FetchList();
 
             SetLoadingGridVisibility(false);
             setScreen(Screen.PASSWORDS);
@@ -100,6 +113,7 @@ namespace PassStorage
 
         void timer_TickBackup(object sender, EventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (!vault.saveCompleted) return;
 
             SetLoadingGridVisibility(false);
@@ -110,6 +124,7 @@ namespace PassStorage
 
         void timer_TickSave(object sender, EventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (!vault.saveCompleted) return;
 
             SetLoadingGridVisibility(false);
@@ -120,6 +135,7 @@ namespace PassStorage
 
         private void setScreen(Screen screen)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             switch (screen)
             {
                 case Screen.LOGIN:
@@ -149,6 +165,7 @@ namespace PassStorage
 
         private void listPasswords_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             try
             {
                 Pass details = vault.getPassInfoById(listPasswords.SelectedIndex);
@@ -162,29 +179,33 @@ namespace PassStorage
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void btnLoginCopy_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             Clipboard.SetText(detailLogin.Content.ToString());
             MessageBox.Show("Login copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void btnPassCopy_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             Clipboard.SetText(detailPassword.Content.ToString());
             MessageBox.Show("Password copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             //vault.WritePasswords();
         }
 
         private void gridLogin_KeyDown(object sender, KeyEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (e.Key == Key.Enter)
             {
                 if (Hash.check(txtEnterPassword.Password, vault.enter))
@@ -200,6 +221,7 @@ namespace PassStorage
 
         private void gridMaster_KeyDown(object sender, KeyEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (e.Key == Key.Enter)
             {
                 MasterBtnAction();
@@ -208,11 +230,13 @@ namespace PassStorage
 
         private void SetLoadingGridVisibility(bool visible)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             gridLoading.Visibility = visible ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
         }
 
         private void menuAddNew_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             try
             {
                 Pass newPass = new AddWindow().AddNew();
@@ -232,8 +256,8 @@ namespace PassStorage
                 newPass.id = id;
                 vault.rootList.data.Add(newPass);
                 vault.Sort();
-                listPasswords.ItemsSource = null;
-                listPasswords.ItemsSource = vault.getPasswordTitles();
+
+                FetchList();
             }
             catch (Exception ex)
             {
@@ -243,6 +267,7 @@ namespace PassStorage
 
         private void menuSave_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             menuSave.IsEnabled = false;
             SetLoadingGridVisibility(true);
             vault.WritePasswords();
@@ -254,6 +279,7 @@ namespace PassStorage
 
         private void menuBackup_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             menuBackup.IsEnabled = false;
             SetLoadingGridVisibility(true);
             vault.Backup();
@@ -265,6 +291,7 @@ namespace PassStorage
 
         private void menuBackupDecoded_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (MessageBox.Show("Are you sure you want to save decoded password list?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
             {
                 return;
@@ -275,23 +302,27 @@ namespace PassStorage
 
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             Close();
         }
 
         private void menuCopyLogin_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             Clipboard.SetText(detailLogin.Content.ToString());
             MessageBox.Show("Login copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void menuCopyPassword_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             Clipboard.SetText(detailPassword.Content.ToString());
             MessageBox.Show("Password copied!", "Clipboard", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void menuEdit_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             try
             {
                 if (listPasswords.SelectedIndex == -1)
@@ -305,8 +336,7 @@ namespace PassStorage
                 pass = add.Edit(pass);
 
                 vault.Sort();
-                listPasswords.ItemsSource = null;
-                listPasswords.ItemsSource = vault.getPasswordTitles();
+                FetchList();
             }
             catch (Exception ex)
             {
@@ -315,7 +345,8 @@ namespace PassStorage
         }
 
         private void menuDelete_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             try
             {
                 int index = listPasswords.SelectedIndex;
@@ -335,20 +366,27 @@ namespace PassStorage
             }
 
             vault.Sort();
-            listPasswords.ItemsSource = null;
-            listPasswords.ItemsSource = vault.getPasswordTitles();
+            FetchList();
 
             if (vault.getPasswordTitles().Any()) listPasswords.SelectedIndex = 0;
         }
 
         private void menuHashGeneratorTool_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             MessageBox.Show("Not implemented", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void menuAbout_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             MessageBox.Show("Not implemented", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void menuUploadDecoded_Click(object sender, RoutedEventArgs e)
+        {
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            vault.LoadDecoded();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace PassStorage.Classes
         private static RijndaelManaged RatelRijndaelManaged(string salt)
         {
             if (salt == null) throw new ArgumentNullException("salt");
+
             var saltBytes = Encoding.ASCII.GetBytes(salt);
             var key = new Rfc2898DeriveBytes(Inputkey, saltBytes);
 
@@ -28,17 +29,19 @@ namespace PassStorage.Classes
 
         public static string EncryptRijndael(string text, string salt)
         {
-            if (string.IsNullOrEmpty(text))
-                throw new ArgumentNullException("text");
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException("text");
 
             var aesAlg = RatelRijndaelManaged(salt);
 
             var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
             var msEncrypt = new MemoryStream();
+
             using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-            using (var swEncrypt = new StreamWriter(csEncrypt))
             {
-                swEncrypt.Write(text);
+                using (var swEncrypt = new StreamWriter(csEncrypt))
+                {
+                    swEncrypt.Write(text);
+                }
             }
 
             return Convert.ToBase64String(msEncrypt.ToArray());

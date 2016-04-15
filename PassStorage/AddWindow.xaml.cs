@@ -70,7 +70,7 @@ namespace PassStorage
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logging.Logger.Instance.Error(Common.GetCurrentMethod(), ex);
             }
         }
 

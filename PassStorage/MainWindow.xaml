@@ -25,79 +25,79 @@
 
             <Menu IsMainMenu="True" Width="1000" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" >
                 <MenuItem Header="File">
-                    <MenuItem Name="menuAddNew" Header="Add new" Click="menuAddNew_Click">
+                    <MenuItem Name="menuAddNew" Header="Add new" Click="menuAddNew_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/create_new-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuSave" Header="Save" Click="menuSave_Click">
+                    <MenuItem Name="menuSave" Header="Save" Click="menuSave_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/save_as-50 (1).png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuUploadDecoded" Header="Upload decoded" Click="menuUploadDecoded_Click">
+                    <MenuItem Name="menuUploadDecoded" Header="Upload decoded" Click="menuUploadDecoded_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Upload-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuBackup" Header="Backup" Click="menuBackup_Click">
+                    <MenuItem Name="menuBackup" Header="Backup" Click="menuBackup_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/database_backup-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Name="menuBackupDecoded" Header="Backup decoded" Click="menuBackupDecoded_Click">
+                    <MenuItem Name="menuBackupDecoded" Header="Backup decoded" Click="menuBackupDecoded_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Data Protection-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuExit" Header="Exit" Click="menuExit_Click">
+                    <MenuItem Name="menuExit" Header="Exit" Click="menuExit_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Exit-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Edit">
-                    <MenuItem Name="menuCopyLogin" Header="Copy login" Click="menuCopyLogin_Click">
+                    <MenuItem Name="menuCopyLogin" Header="Copy login" Click="menuCopyLogin_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/copy-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Name="menuCopyPassword" Header="Copy password" Click="menuCopyPassword_Click">
+                    <MenuItem Name="menuCopyPassword" Header="Copy password" Click="menuCopyPassword_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/copy-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuEdit" Header="Edit" Click="menuEdit_Click">
+                    <MenuItem Name="menuEdit" Header="Edit" Click="menuEdit_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Edit Row-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuDelete" Header="Delete" Click="menuDelete_Click">
+                    <MenuItem Name="menuDelete" Header="Delete" Click="menuDelete_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Delete-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Extra">
-                    <MenuItem Name="menuHashGeneratorTool" Header="Hash generator tool" Click="menuHashGeneratorTool_Click">
+                    <MenuItem Name="menuHashGeneratorTool" Header="Hash generator tool" Click="menuHashGeneratorTool_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Drill-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuAbout" Header="About PassStorage..." Click="menuAbout_Click">
+                    <MenuItem Name="menuAbout" Header="About PassStorage..." Click="menuAbout_Click" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/About-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="menuVersion" Header="Version">
+                    <MenuItem Name="menuVersion" Header="Version" Height="25">
                         <MenuItem.Icon>
                             <Image Source="Images/Icons/Versions-50.png" Width="20" Height="20" />
                         </MenuItem.Icon>

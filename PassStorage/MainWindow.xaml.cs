@@ -157,7 +157,7 @@ namespace PassStorage
             Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             try
             {
-                Pass details = vault.getPassInfoById(listPasswords.SelectedIndex);
+                Pass details = vault.GetPassInfoById(listPasswords.SelectedIndex);
                 detailLogin.Content = details.login;
                 detailPassword.Content = details.password;
                 detailTitle.Content = details.title;
@@ -338,7 +338,7 @@ namespace PassStorage
             {
                 int index = listPasswords.SelectedIndex;
 
-                if (MessageBox.Show($"Are you sure to delete {vault.getPassInfoById(index).title} ?", "Please confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"Are you sure to delete {vault.GetPassInfoById(index).title} ?", "Please confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     vault.DeletePassAt(index);
                 }

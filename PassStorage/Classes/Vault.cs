@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PassStorage.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,7 +29,7 @@ namespace PassStorage.Classes
 
         public void ReadPasswords()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             decodeCompleted = false;
             rootList.data = null;
             Thread thread = new Thread(ReadPasswordsThread);
@@ -37,10 +38,11 @@ namespace PassStorage.Classes
 
         public void ReadPasswordsThread()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (File.Exists(filename))
             {
                 // Plik istnieje, odczyt
+                Logger.Instance.Debug(Common.GetCurrentMethod(), "File exists. Reading passwords...");
                 using (StreamReader sr = new StreamReader(filename))
                 {
                     encodedPasswords = sr.ReadToEnd();
@@ -55,6 +57,7 @@ namespace PassStorage.Classes
                 using (StreamWriter sw = new StreamWriter(filename))
                 {
                     // Koduje pusta liste i ja zapisuje
+                    Logger.Instance.Debug(Common.GetCurrentMethod(), "File doesn't exist. Saving empty list.");
                     EncodePasswords();
                     sw.Write(encodedPasswords);
                     sw.Flush();
@@ -67,7 +70,7 @@ namespace PassStorage.Classes
 
         public void WritePasswords()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             saveCompleted = false;
             Thread thread = new Thread(WritePasswordsThread);
             thread.Start();
@@ -75,10 +78,9 @@ namespace PassStorage.Classes
 
         public void WritePasswordsThread()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             using (StreamWriter sw = new StreamWriter(filename))
             {
-                // Koduje pusta liste i ja zapisuje
                 EncodePasswords();
                 sw.Write(encodedPasswords);
                 sw.Flush();
@@ -90,7 +92,7 @@ namespace PassStorage.Classes
 
         public void EncodePasswords()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             RootList encodedRootList = new RootList() { data = new List<Pass>() };
             encodedRootList.date = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
             encodedRootList.version = Common.GetVersion();
@@ -116,6 +118,7 @@ namespace PassStorage.Classes
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Logger.Instance.Error(Common.GetCurrentMethod(), e);
             }
 
             encodedPasswords = String.Empty;
@@ -124,7 +127,7 @@ namespace PassStorage.Classes
 
         public void DecodePasswords()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             try
             {
                 rootList = JsonConvert.DeserializeObject<RootList>(encodedPasswords);
@@ -135,6 +138,8 @@ namespace PassStorage.Classes
                     pass.title = Crypt.DecryptRijndael(pass.title, master);
                     pass.password = Crypt.DecryptRijndael(pass.password, master);
                 }
+
+                Logger.Instance.Debug(Common.GetCurrentMethod(), $"Passwords decoded. Count {rootList.data?.Count}");
 
                 Sort();
             }
@@ -147,19 +152,19 @@ namespace PassStorage.Classes
 
         public List<string> getPasswordTitles()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             return rootList.data.Select(pass => pass.IsOvertime() ? $"WARNING - {pass.title}" : pass.title).ToList();
         }
 
-        public Pass getPassInfoById(int id)
+        public Pass GetPassInfoById(int id)
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             return rootList.data.FirstOrDefault(pass => pass.id == id);
         }
 
         public void DeletePassAt(int index)
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             rootList.data.RemoveAt(index);
 
             int id = 0;
@@ -172,7 +177,7 @@ namespace PassStorage.Classes
 
         public void Backup()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             saveCompleted = false;
             Thread thread = new Thread(BackupThread);
             thread.Start();
@@ -180,19 +185,19 @@ namespace PassStorage.Classes
 
         public void BackupThread()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             if (!Directory.Exists("backup"))
             {
-                Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"Directory backup doesn't exist. Creating one.");
+                Logger.Instance.Debug(Common.GetCurrentMethod(), $"Directory backup doesn't exist. Creating one.");
                 Directory.CreateDirectory("backup");
             }
 
             string backupfile = "backup_" + DateTime.Now.ToShortDateString() + ".dat";
-            Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"Backup file will have name {backupfile}");
+            Logger.Instance.Debug(Common.GetCurrentMethod(), $"Backup file will have name {backupfile}");
 
             if (File.Exists("backup\\" + backupfile))
             {
-                Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"Such a file exists!");
+                Logger.Instance.Debug(Common.GetCurrentMethod(), $"Such a file exists!");
                 int count =
                     Directory.GetFiles("backup\\", backupfile.Substring(0, backupfile.LastIndexOf('.')) + "*")
                         .ToList()
@@ -200,7 +205,7 @@ namespace PassStorage.Classes
 
                 backupfile = backupfile.Substring(0, backupfile.LastIndexOf('.'));
                 backupfile += "_" + count + ".dat";
-                Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"New backup file name {backupfile}");
+                Logger.Instance.Debug(Common.GetCurrentMethod(), $"New backup file name {backupfile}");
             }
 
             using (StreamWriter sw = new StreamWriter("backup\\" + backupfile))
@@ -217,7 +222,7 @@ namespace PassStorage.Classes
 
         public void Sort()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
 
             // Sorting
             rootList.data = rootList.data.OrderBy(p => p.title).ToList();
@@ -232,7 +237,7 @@ namespace PassStorage.Classes
 
         public void BackupDecoded()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
 
             string filename = null;
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
@@ -247,7 +252,7 @@ namespace PassStorage.Classes
             if (result == true) filename = dlg.FileName;
             else return;
 
-            Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"Performing decoded backup to file {filename}");
+            Logger.Instance.Debug(Common.GetCurrentMethod(), $"Performing decoded backup to file {filename}");
 
             using (StreamWriter sw = new StreamWriter(filename))
             {
@@ -260,7 +265,7 @@ namespace PassStorage.Classes
 
         public void LoadDecoded()
         {
-            Logging.Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.FunctionStart(Common.GetCurrentMethod());
 
             string filename = null;
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -275,7 +280,7 @@ namespace PassStorage.Classes
             if (result == true) filename = dlg.FileName;
             else return;
 
-            Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"Loading decoded json from file {filename}");
+            Logger.Instance.Debug(Common.GetCurrentMethod(), $"Loading decoded json from file {filename}");
 
             if (File.Exists(filename))
             {
@@ -290,11 +295,11 @@ namespace PassStorage.Classes
                     }
 
                     rootList = JsonConvert.DeserializeObject<RootList>(encodedPasswords);
-                    Logging.Logger.Instance.Debug(Common.GetCurrentMethod(), $"Decoded passwords loaded. Count {rootList.data?.Count}");
+                    Logger.Instance.Debug(Common.GetCurrentMethod(), $"Decoded passwords loaded. Count {rootList.data?.Count}");
                 }
                 catch (Exception e)
                 {
-                    Logging.Logger.Instance.Error(Common.GetCurrentMethod(), e);
+                    Logger.Instance.Error(Common.GetCurrentMethod(), e);
                 }
                 
             }

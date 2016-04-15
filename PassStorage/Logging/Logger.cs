@@ -132,12 +132,12 @@ namespace PassStorage.Logging
 
         public void FunctionStart(string functionName)
         {
-            log.Debug($"START {functionName}");
+            if (bool.Parse(Common.ReadSetting("LOG_FUNC_START"))) log.Debug($"START {functionName}");
         }
 
         public void FunctionExit(string functionName)
         {
-            log.Debug($"FINISH {functionName}");
+            if (bool.Parse(Common.ReadSetting("LOG_FUNC_EXIT"))) log.Debug($"FINISH {functionName}");
         }
     }
 }

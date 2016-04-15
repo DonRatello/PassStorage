@@ -124,6 +124,7 @@ namespace PassStorage
         private void setScreen(Screen screen)
         {
             Logger.Instance.FunctionStart(Common.GetCurrentMethod());
+            Logger.Instance.Debug(Common.GetCurrentMethod(), $"New screen {screen}");
             switch (screen)
             {
                 case Screen.LOGIN:
@@ -165,10 +166,8 @@ namespace PassStorage
                 detailDate_WarningImage.Visibility = string.IsNullOrEmpty(details.GetWarning()) ? Visibility.Hidden : Visibility.Visible;
                 detailDate_Warning.Content = details.GetWarning();
             }
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            catch (Exception)
+            { }
         }
 
         private void btnLoginCopy_Click(object sender, RoutedEventArgs e)

@@ -124,10 +124,10 @@ namespace PassStorage.Classes
 
         public void DecodePasswords()
         {
-            rootList = JsonConvert.DeserializeObject<RootList>(encodedPasswords);
-
             try
             {
+                rootList = JsonConvert.DeserializeObject<RootList>(encodedPasswords);
+
                 foreach (var pass in rootList.data)
                 {
                     pass.login = Crypt.DecryptRijndael(pass.login, master);
@@ -140,6 +140,7 @@ namespace PassStorage.Classes
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                rootList.data = new List<Pass>();
             }
         }
 
@@ -256,7 +257,18 @@ namespace PassStorage.Classes
             if (result == true) filename = dlg.FileName;
             else return;
 
+            if (File.Exists(filename))
+            {
+                // Plik istnieje, odczyt
+                using (StreamReader sr = new StreamReader(filename))
+                {
+                    encodedPasswords = sr.ReadToEnd();
+                    Console.WriteLine("ENCODED PASSWORDS: " + encodedPasswords);
+                    sr.Close();
+                }
 
+                rootList = JsonConvert.DeserializeObject<RootList>(encodedPasswords);
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Management;
+using System.Linq;
 
 namespace PassStorage.Classes
 {
@@ -58,6 +60,13 @@ namespace PassStorage.Classes
             var localTime = TimeZoneInfo.ConvertTimeFromUtc(linkTimeUtc, tz);
 
             return localTime;
+        }
+
+        public static string GetOperatingSystem()
+        {
+            var name = (from x in new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem").Get().OfType<ManagementObject>()
+                        select x.GetPropertyValue("Caption")).FirstOrDefault();
+            return name != null ? name.ToString() : "Unknown";
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

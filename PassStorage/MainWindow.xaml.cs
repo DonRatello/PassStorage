@@ -33,7 +33,7 @@ namespace PassStorage
             Logger.Instance.FunctionStart(Common.GetCurrentMethod());
             vault = new Vault();
             timer = new DispatcherTimer();
-            menuVersion.Header = $"Version {Common.GetVersion()} Build {Common.GetLinkerTime(Assembly.GetExecutingAssembly()).ToString("yyyyMMddHHmmss")}";
+            menuVersion.Header = $"Version {Common.GetVersion()} Build {Common.GetLinkerTime(Assembly.GetExecutingAssembly()).ToString("yyyyMMdd")}";
             SetLoadingGridVisibility(false);
             setScreen(Screen.LOGIN);
         }

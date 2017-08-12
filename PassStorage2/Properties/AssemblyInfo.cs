@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("PassStorage2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Marcin 'Ratel' Czernecki")]
 [assembly: AssemblyProduct("PassStorage2")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright mCzernecki.pl ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

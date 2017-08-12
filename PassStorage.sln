@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassStorage", "PassStorage\PassStorage.csproj", "{96C055CF-EE2C-470E-BECA-E157466D0FAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassStorageTest", "PassStorageTest\PassStorageTest.csproj", "{0AD57C4F-FBB0-4083-9997-5889A3AF5A08}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoTool", "CryptoTool\CryptoTool.csproj", "{0C2E3399-B967-4E03-8257-4AFE5CF0193F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +31,6 @@ Global
 		{0AD57C4F-FBB0-4083-9997-5889A3AF5A08}.Release|x64.Build.0 = Release|x64
 		{0AD57C4F-FBB0-4083-9997-5889A3AF5A08}.Release|x86.ActiveCfg = Release|x86
 		{0AD57C4F-FBB0-4083-9997-5889A3AF5A08}.Release|x86.Build.0 = Release|x86
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Debug|x64.ActiveCfg = Debug|x64
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Debug|x64.Build.0 = Debug|x64
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Debug|x86.ActiveCfg = Debug|x86
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Debug|x86.Build.0 = Debug|x86
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Release|x64.ActiveCfg = Release|x64
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Release|x64.Build.0 = Release|x64
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Release|x86.ActiveCfg = Release|x86
-		{0C2E3399-B967-4E03-8257-4AFE5CF0193F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

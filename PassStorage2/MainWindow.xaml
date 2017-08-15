@@ -3,10 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PassStorage2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" ResizeMode="CanMinimize">
-    <Grid>
+        Title="MainWindow" Height="600" Width="1024" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Grid Name="gridLogin">
+        <Image HorizontalAlignment="Left" Margin="0,0,0,0" Width="300" VerticalAlignment="Bottom" Source="Images/safe.jpg"/>
+        <Label Content="PassStorage 2.0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,300" FontSize="30" FontFamily="Tahoma Bold"/>
+
+        <Label Content="Password 1" HorizontalAlignment="Center" Margin="0,0,154,100" VerticalAlignment="Center" FontSize="20"/>
+        <PasswordBox Name="pass1" HorizontalAlignment="Center" Margin="0,60,0,100" VerticalAlignment="Center" Width="250"/>
+
+        <Label Content="Password 2" HorizontalAlignment="Center" Margin="0,160,154,100" VerticalAlignment="Center" FontSize="20"/>
+        <PasswordBox Name="pass2" HorizontalAlignment="Center" Margin="0,220,0,100" VerticalAlignment="Center" Width="250"/>
+        <Button Name="btnLogin" Content="Open the safe" HorizontalAlignment="Center" Margin="0,350,0,100" VerticalAlignment="Center" Width="130" Click="btnLogin_Click"/>
+
 
     </Grid>
 </Window>

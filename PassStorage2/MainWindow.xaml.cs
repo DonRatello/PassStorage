@@ -1,4 +1,5 @@
 ﻿using PassStorage.Base;
+using System.Timers;
 using System.Windows;
 
 namespace PassStorage2
@@ -22,6 +23,18 @@ namespace PassStorage2
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             vault = new Vault(pass1.Password, pass2.Password);
+
+            var timer = new Timer(250);
+            timer.Elapsed += (object s, ElapsedEventArgs args) =>
+            {
+                if (vault.PasswordsReady)
+                {
+                    timer.Stop();
+                    // TODO: Change screen
+                }
+            };
+            timer.AutoReset = true;
+            timer.Start();
         }
     }
 }

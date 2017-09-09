@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Crypto.cs" />
     <Compile Include="DAL\Root.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="DAL\Password.cs" />

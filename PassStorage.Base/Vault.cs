@@ -26,7 +26,7 @@ namespace PassStorage.Base
             CheckVaultState();
         }
 
-        private void CheckVaultState()
+        protected void CheckVaultState()
         {
             VaultOpen = Hash.Check(Password1, Config.Instance.EnterHash);
 
@@ -36,7 +36,7 @@ namespace PassStorage.Base
             thread.Start();
         }
 
-        private void AnalyzePasswords()
+        protected void AnalyzePasswords()
         {
             string fileData;
 
@@ -50,8 +50,9 @@ namespace PassStorage.Base
                         sr.Close();
                     }
                     Data = JsonConvert.DeserializeObject<DAL.Root>(fileData);
+                    DecodePasswords();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Data = new DAL.Root();
                     Data.FillDefaults();
@@ -61,6 +62,28 @@ namespace PassStorage.Base
             {
                 Data = new DAL.Root();
                 Data.FillDefaults();
+            }
+
+            PasswordsReady = true;
+        }
+
+        protected void DecodePasswords()
+        {
+            foreach (var pass in Data.data)
+            {
+                pass.title = Crypto.DecryptRijndael(pass.title, Password2);
+                pass.login = Crypto.DecryptRijndael(pass.login, Password2);
+                pass.password = Crypto.DecryptRijndael(pass.password, Password2);
+            }
+        }
+
+        protected void EncodePasswords()
+        {
+            foreach (var pass in Data.data)
+            {
+                pass.title = Crypto.EncryptRijndael(pass.title, Password2);
+                pass.login = Crypto.EncryptRijndael(pass.login, Password2);
+                pass.password = Crypto.EncryptRijndael(pass.password, Password2);
             }
         }
 

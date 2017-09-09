@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PassStorage.Base
 {
@@ -14,6 +15,7 @@ namespace PassStorage.Base
         public string Password2 { get; set; }
         public bool VaultOpen { get; set; }
         public bool PasswordsReady { get; set; }
+        public DAL.Root Data { get; set; }
 
         public Vault(string pass1, string pass2)
         {
@@ -30,24 +32,35 @@ namespace PassStorage.Base
 
             if (!VaultOpen) return;
 
-            Thread thread = new Thread(ReadPasswords);
+            Thread thread = new Thread(AnalyzePasswords);
             thread.Start();
         }
 
-        private void ReadPasswords()
+        private void AnalyzePasswords()
         {
-            string encodedPasswords;
+            string fileData;
 
             if (File.Exists(Config.Instance.Filename))
             {
-                using (StreamReader sr = new StreamReader(Config.Instance.Filename))
+                try
                 {
-                    encodedPasswords = sr.ReadToEnd();
-                    sr.Close();
-
-                    //TODO
-                    // ENCODE PASSWORDS
+                    using (StreamReader sr = new StreamReader(Config.Instance.Filename))
+                    {
+                        fileData = sr.ReadToEnd();
+                        sr.Close();
+                    }
+                    Data = JsonConvert.DeserializeObject<DAL.Root>(fileData);
                 }
+                catch (Exception ex)
+                {
+                    Data = new DAL.Root();
+                    Data.FillDefaults();
+                }
+            }
+            else
+            {
+                Data = new DAL.Root();
+                Data.FillDefaults();
             }
         }
 

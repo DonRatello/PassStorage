@@ -29,7 +29,7 @@ namespace PassStorage2
             {
                 if (vault.PasswordsReady)
                 {
-                    timer.Stop(); 
+                    timer.Stop();  
                     // TODO: Change screen
                 }
             };

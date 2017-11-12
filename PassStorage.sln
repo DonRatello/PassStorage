@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassStorage", "PassStorage\PassStorage.csproj", "{96C055CF-EE2C-470E-BECA-E157466D0FAA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassStorage2", "PassStorage2\PassStorage2.csproj", "{5CBDD42B-F0CE-42A7-A47C-526791FFA720}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassStorage.Base", "PassStorage.Base\PassStorage.Base.csproj", "{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,24 +21,11 @@ Global
 		{96C055CF-EE2C-470E-BECA-E157466D0FAA}.Release|x64.Build.0 = Release|x64
 		{96C055CF-EE2C-470E-BECA-E157466D0FAA}.Release|x86.ActiveCfg = Release|x86
 		{96C055CF-EE2C-470E-BECA-E157466D0FAA}.Release|x86.Build.0 = Release|x86
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Debug|x64.ActiveCfg = Debug|x64
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Debug|x64.Build.0 = Debug|x64
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Debug|x86.ActiveCfg = Debug|x86
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Debug|x86.Build.0 = Debug|x86
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Release|x64.ActiveCfg = Release|x64
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Release|x64.Build.0 = Release|x64
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Release|x86.ActiveCfg = Release|x86
-		{5CBDD42B-F0CE-42A7-A47C-526791FFA720}.Release|x86.Build.0 = Release|x86
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Debug|x64.ActiveCfg = Debug|x64
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Debug|x64.Build.0 = Debug|x64
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Debug|x86.ActiveCfg = Debug|x86
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Debug|x86.Build.0 = Debug|x86
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Release|x64.ActiveCfg = Release|x64
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Release|x64.Build.0 = Release|x64
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Release|x86.ActiveCfg = Release|x86
-		{3AE88B0F-EAAB-44B1-829C-0E6419FB2A1F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49162CDF-CD0C-445E-BD53-4C4EAC2CB468}
 	EndGlobalSection
 EndGlobal
